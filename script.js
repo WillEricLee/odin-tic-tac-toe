@@ -1,6 +1,7 @@
 function player(mark, name) {
     return {mark, name};
 }
+
 const player1 = player('X', 'Xavier');
 const player2 = player('O', 'Orin');
 
@@ -12,8 +13,15 @@ const gameBoard = (function() {
         (2,0) (2,1) (2,2)
     */
 
-    const makeMove = (letter, x, y) => board[x, y] = letter;
+    const makeMove = (letter, x, y) => {
+        board[x][y] = letter;
+        console.log(checkWinner(board));
+        displayBoard();
+    };
     const resetBoard = () => board = [['N', 'N', 'N'], ['N', 'N', 'N'], ['N', 'N', 'N']];
+    const getRow = (row) => board[row];
+
+    return {board, makeMove, resetBoard, getRow};
 })();
 
 const gameManager = (function() {
@@ -26,35 +34,39 @@ const gameManager = (function() {
             //regular input
         }
     }
+
+    return {players, playGame};
 })();
 
-function checkGameEnd() { //tells if gameBoard module is won by 'X', 'O', or 'N' (none)
+function checkWinner(board) { //tells if board array is won by 'X', 'O', or 'N' (none)
+    const allEqual = arr => arr.every( v => v === arr[0] )
 
     for (let i = 0; i<3; i++) {
         //if 3-across
-        if (allEqual(gameBoard[i]) && gameBoard[i][0]!='N') {
-            return gameBoard[i][0];
+        if (allEqual(board[i]) && board[i][0]!='N') {
+            return board[i][0];
         }
         //if 3-down
-        else if (allEqual([gameBoard[0][i], gameBoard[1][i]], gameBoard[2][i]) && gameBoard[0][i]!='N') {
-            return gameBoard[0][i];
+        else if (allEqual([board[0][i], board[1][i]], board[2][i]) && board[0][i]!='N') {
+            return board[0][i];
         }
     }
 
     //if diagonal 00-22
-    if ((gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) && gameBoard[0][0]!='N') {
-        return gameBoard[1][1];
+    if ((board[0][0] == board[1][1] && board[1][1] == board[2][2]) && board[0][0]!='N') {
+        return board[1][1];
     }
     //if diagonal 02-20
-    else if ((gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0]) && gameBoard[0][2]!='N') {
-        return gameBoard[1][1];
+    else if ((board[0][2] == board[1][1] && board[1][1] == board[2][0]) && board[0][2]!='N') {
+        return board[1][1];
     }
 
     return 'N';
 }
+
 function displayBoard() { //takes gameboard MODULE, displays on screen
     //for now, just display to console
-    console.log(gameBoard[0]);
-    console.log(gameBoard[1]);
-    console.log(gameBoard[2]);
+    console.log(gameBoard.getRow(0));
+    console.log(gameBoard.getRow(1));
+    console.log(gameBoard.getRow(2));
 }
