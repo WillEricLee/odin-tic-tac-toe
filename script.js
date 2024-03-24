@@ -3,7 +3,9 @@ function checkGameEnd(gameBoard) { //takes gameboard MODULE, tells if game is wo
 }
 function displayBoard(gameBoard) { //takes gameboard MODULE, displays on screen
     //for now, just display to console
-
+    console.log(board[0]);
+    console.log(board[1]);
+    console.log(board[2]);
 }
 function player(mark, name) {
     return {mark, name};
@@ -21,6 +23,5 @@ const gameBoard = (function() {
     const resetBoard = () => board = [['N', 'N', 'N'], ['N', 'N', 'N'], ['N', 'N', 'N']];
 })();
 const gameManager = (function() {
-    player1 = player('X', 'Xavier');
-    player2 = player('O', 'Orin');
+    const players = [player('X', 'Xavier'), player('O', 'Orin')];
 })();
