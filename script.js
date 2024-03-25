@@ -13,10 +13,23 @@ const gameBoard = (function() {
         (2,0) (2,1) (2,2)
     */
 
+    //references to each of the markings, to be fed to displayBoard
+    //I'm getting the references here so that they only have to be made once,
+    //but not globally.
+    const mark00 = document.querySelector(".mark00");
+    const mark01 = document.querySelector(".mark01");
+    const mark02 = document.querySelector(".mark02");
+    const mark10 = document.querySelector(".mark10");
+    const mark11 = document.querySelector(".mark11");
+    const mark12 = document.querySelector(".mark12");
+    const mark20 = document.querySelector(".mark20");
+    const mark21 = document.querySelector(".mark21");
+    const mark22 = document.querySelector(".mark22");
+
     const makeMove = (letter, x, y) => {
         board[x][y] = letter;
         console.log(checkWinner(board));
-        displayBoard();
+        displayBoard(board, [[mark00, mark01, mark02], [mark10, mark11, mark12], [mark20, mark21, mark22]]);
     };
     const resetBoard = () => board = [['N', 'N', 'N'], ['N', 'N', 'N'], ['N', 'N', 'N']];
     const getRow = (row) => board[row];
@@ -64,9 +77,16 @@ function checkWinner(board) { //tells if board array is won by 'X', 'O', or 'N' 
     return 'N';
 }
 
-function displayBoard() { //takes gameboard MODULE, displays on screen
-    //for now, just display to console
+function displayBoard(board, marks) {
+    //display to console
     console.log(gameBoard.getRow(0));
     console.log(gameBoard.getRow(1));
     console.log(gameBoard.getRow(2));
+
+    //loop through board and update corresponding mark divs
+    for (let i = 0; i<3; i++) {
+        for (let j = 0; j<3; j++) {
+            if (board[i][j] != 'N') {marks[i][j].innerHTML = board[i][j];}
+        }
+    }
 }
