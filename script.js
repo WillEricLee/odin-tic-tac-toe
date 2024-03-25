@@ -5,6 +5,18 @@ function player(mark, name) {
 const player1 = player('X', 'Xavier');
 const player2 = player('O', 'Orin');
 
+//references to each of the squares
+//I'm getting the references here so that they only have to be made once
+const square00 = document.querySelector(".square00");
+const square01 = document.querySelector(".square01");
+const square02 = document.querySelector(".square02");
+const square10 = document.querySelector(".square10");
+const square11 = document.querySelector(".square11");
+const square12 = document.querySelector(".square12");
+const square20 = document.querySelector(".square20");
+const square21 = document.querySelector(".square21");
+const square22 = document.querySelector(".square22");
+
 const gameBoard = (function() {
     let board = [['N', 'N', 'N'], ['N', 'N', 'N'], ['N', 'N', 'N']]; //initialize blank board
     /* for (x,y)
@@ -13,23 +25,10 @@ const gameBoard = (function() {
         (2,0) (2,1) (2,2)
     */
 
-    //references to each of the markings, to be fed to displayBoard
-    //I'm getting the references here so that they only have to be made once,
-    //but not globally.
-    const mark00 = document.querySelector(".mark00");
-    const mark01 = document.querySelector(".mark01");
-    const mark02 = document.querySelector(".mark02");
-    const mark10 = document.querySelector(".mark10");
-    const mark11 = document.querySelector(".mark11");
-    const mark12 = document.querySelector(".mark12");
-    const mark20 = document.querySelector(".mark20");
-    const mark21 = document.querySelector(".mark21");
-    const mark22 = document.querySelector(".mark22");
-
     const makeMove = (letter, x, y) => {
         board[x][y] = letter;
         console.log(checkWinner(board));
-        displayBoard(board, [[mark00, mark01, mark02], [mark10, mark11, mark12], [mark20, mark21, mark22]]);
+        displayBoard(board, [[square00, square01, square02], [square10, square11, square12], [square20, square21, square22]]);
     };
     const resetBoard = () => board = [['N', 'N', 'N'], ['N', 'N', 'N'], ['N', 'N', 'N']];
     const getRow = (row) => board[row];
