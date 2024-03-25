@@ -59,6 +59,8 @@ const gameManager = (function() {
         square.addEventListener("click", () => {makeMove(square.dataset.x, square.dataset.y)});
     });
 
+    let turn = 'X';
+
     const startGame = () => {
         gameBoard.resetBoard();
         
