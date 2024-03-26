@@ -10,22 +10,22 @@
 <body>
 
 <div class="sidebar">
-    <input type="text" class="name-input player1">
+    <input type="text" class="name-input player1" placeholder="Player 1 Name">
     <label for="player1" class="name-input-label"></label>
     
-    <input type="text" class="name-input player2">
+    <input type="text" class="name-input player2" placeholder="Player 2 Name">
     <label for="player2" class="name-input-label"></label>
     
-    <button class="restart"></button>
+    <button class="restart">Start / Restart</button>
 
     <div class="results">
         <div class="player-wins-line">
-            <h2>Player 1 wins: </h2>
+            <h2 id="player1-wins-header">Player 1 wins: </h2>
             <p id="player1"></p>
         </div>
 
         <div class="player-wins-line">
-            <h2>Player 2 wins: </h2>
+            <h2 id="player2-wins-header">Player 2 wins: </h2>
             <p id="player2"></p>
         </div>
     </div>

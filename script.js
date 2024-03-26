@@ -1,19 +1,27 @@
-function player(mark, name, number) {
+function player(mark,  number) {
     let wins = 0;
+    let name = '';
     let playerID = "player" + number.toString();
-    console.log(playerID);
     const winsCounter = document.getElementById(playerID);
 
     const getWins = () => wins;
+    const resetWins = () => {
+        wins = 0;
+        winsCounter.innerHTML = wins;
+    };
     const addWin = () => {
         wins++;
         winsCounter.innerHTML = wins;
     };
-    return {mark, name, getWins, addWin};
+    const setName = (newName) => {
+        name = newName;    
+    }
+    const getName = () => name;
+    return {mark, getWins, resetWins, addWin, setName, getName};
 }
 
-const player1 = player('X', 'Xavier', 1);
-const player2 = player('O', 'Orin', 2);
+const player1 = player('X', 1);
+const player2 = player('O', 2);
 
 const gameBoard = (function() {
     let board = [['N', 'N', 'N'], ['N', 'N', 'N'], ['N', 'N', 'N']]; //initialize blank board
@@ -74,9 +82,45 @@ const gameManager = (function() {
 
     const startGame = () => {
         gameBoard.resetBoard();
+
         turn = 'X';
         turns = 0;
+
+        player1.resetWins();
+        player2.resetWins();
+
+        displayBoard(squares);
+
+        //assign names
+        if (player1Input.value.length == 0) {
+            player1.setName("Player 1");
+        }
+        else { 
+            player1.setName(player1Input.value);
+            console.log("player1 name: " + player1Input.value)
+        }
+        if (player2Input.value.length == 0) {
+            player2.setName("Player 2");
+        }
+        else { 
+            player2.setName(player2Input.value);
+        }
+
+        //display names
+        const player1Display = document.getElementById('player1-wins-header');
+        const player2Display = document.getElementById('player2-wins-header');
+        console.log("" + player1.getName() + ' wins:');
+        player1Display.innerHTML = "" + player1.getName() + ' wins:';
+        player2Display.innerHTML = "" + player2.getName() + ' wins:';
     };
+
+    const newRound = () => {
+        gameBoard.resetBoard();
+
+        turn = 'X';
+        turns = 0;
+    }
+
     const makeMove = (x, y) => {
         if (gameBoard.getRow(x)[y] == 'N') {
             gameBoard.setMark(turn, x, y);
@@ -93,18 +137,18 @@ const gameManager = (function() {
                 if (winner == player.mark) {
                     console.log("Winner: " + player.mark);
                     player.addWin();
-                    startGame();
+                    newRound();
                 }
             }
 
             if (turns==9) {
                 console.log("Winner: None");
-                startGame();
+                newRound();
             }
         }
     };
 
-    return {players, startGame, makeMove};
+    return {players, startGame, newRound, makeMove};
 })();
 
 function displayBoard(squares) {
@@ -123,4 +167,8 @@ function displayBoard(squares) {
     }
 }
 
-gameManager.startGame();
+const player1Input = document.querySelector(".player1");
+const player2Input = document.querySelector(".player2");
+
+const startButton = document.querySelector(".restart");
+startButton.onclick = () => gameManager.startGame();
